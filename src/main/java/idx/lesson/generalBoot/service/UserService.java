@@ -32,5 +32,5 @@ public interface UserService {
    * @param id
    * @return
    */
-  List<Role> getUserRoleList(Integer id);
+  List<String> getUserRoleList(Integer id);
 }

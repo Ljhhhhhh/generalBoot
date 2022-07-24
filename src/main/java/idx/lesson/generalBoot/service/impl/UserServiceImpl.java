@@ -84,20 +84,13 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<Role> getUserRoleList(Integer id) {
-
+  public List<String> getUserRoleList(Integer id) {
     List<UserRoleRelation> userRoleRelation = userRoleRelationMapper.getRoleListByUserId(id);
-    List<Role> roles = userRoleRelation
+    List<String> roles = userRoleRelation
             .stream()
-            .map(relation -> roleMapper.getRoleNameById(relation.getRoleId()))
+            .map(relation -> "ROLE_" + roleMapper.getRoleNameById(relation.getRoleId()).getRoleName())
             .collect(Collectors.toList());
+    log.info("{}", roles.toString());
     return roles;
-
-//
-//
-//    List<UserRoleRelation> userRoleRelation = userRoleRelationMapper.getRoleListByUserId(id);
-//    return userRoleRelation.stream()
-//            .map(relation -> roleMapper.selectByPrimaryKey(relation.getRoleId()))
-//            .collect(Collectors.toList());
   }
 }

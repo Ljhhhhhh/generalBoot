@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -20,15 +21,18 @@ import java.util.stream.Collectors;
 public class UserDto implements UserDetails {
 
   private final User user;
-  private final List<Role> roles;
-  public UserDto(User user, List<Role> roles) {
+  private final List<String> roles;
+  public UserDto(User user, List<String> roles) {
     this.user = user;
     this.roles = roles;
   }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return this.roles;
+    return roles
+            .stream()
+            .map(SimpleGrantedAuthority::new)
+            .collect(Collectors.toList());
   }
 
   @Override

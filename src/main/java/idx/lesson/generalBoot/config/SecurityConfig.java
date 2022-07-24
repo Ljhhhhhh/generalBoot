@@ -81,14 +81,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //            .antMatchers("/ /login", "/admin/register")
             // 对登录注册要允许匿名访问
             .permitAll()
-            .antMatchers("/admin/**").hasRole("ADMIN")
+            .antMatchers("/brand/**").hasRole("ADMIN")
             .antMatchers(HttpMethod.OPTIONS)
             //跨域请求会先进行一次options请求
             .permitAll()
 //                .antMatchers("/**")//测试时全部允许访问
 //                .permitAll()
             .anyRequest()// 除上面外的所有请求全部需要鉴权认证
-            .authenticated();
+            .permitAll();
     // 禁用缓存
     httpSecurity.headers().cacheControl();
     // 添加JWT filter
@@ -136,12 +136,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return username -> {
       User user = userService.getUserByUsername(username);
       if (user != null) {
-        List<Role> roles = userService.getUserRoleList(user.getId());
+        List<String> roles = userService.getUserRoleList(user.getId());
 //        List<Role> roles = userRoleRelation
 //                .stream()
 //                .map(relation -> roleMapper.getRoleNameById(relation.getRoleId()))
 //                .collect(Collectors.toList());
-        return new UserDto(user, roles);
+        UserDto userDetail = new UserDto(user, roles);
+        return userDetail;
       }
       throw new UsernameNotFoundException("用户名或密码错误");
     };

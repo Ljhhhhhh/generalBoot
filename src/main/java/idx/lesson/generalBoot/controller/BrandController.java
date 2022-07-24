@@ -16,7 +16,6 @@ public class BrandController {
     @ApiOperation("获取所有品牌列表")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
-    @PreAuthorize("hasRole('ADMIN')")
     public Result<String> getBrandList() {
         return Result.success("hello world");
     }
