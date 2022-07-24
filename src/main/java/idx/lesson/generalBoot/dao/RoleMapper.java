@@ -48,9 +48,9 @@ public interface RoleMapper {
     int updateByPrimaryKey(Role record);
 
     /**
-     * 获取用户角色列表
-     * @param id 用户id
-     * @return 角色列表
+     * 获取角色名称
+     * @param id 角色id
+     * @return 角色名称
      */
-    List<Role> getRoleListByUserId(Long id);
+    Role getRoleNameById(Integer id);
 }

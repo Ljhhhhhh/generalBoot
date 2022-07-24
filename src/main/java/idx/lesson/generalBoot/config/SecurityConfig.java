@@ -3,14 +3,17 @@ package idx.lesson.generalBoot.config;
 import idx.lesson.generalBoot.component.JwtAuthenticationTokenFilter;
 import idx.lesson.generalBoot.component.RestAuthenticationEntryPoint;
 import idx.lesson.generalBoot.component.RestfulAccessDeniedHandler;
+import idx.lesson.generalBoot.dao.RoleMapper;
 import idx.lesson.generalBoot.dto.UserDto;
 import idx.lesson.generalBoot.entity.Role;
 import idx.lesson.generalBoot.entity.User;
+import idx.lesson.generalBoot.entity.UserRoleRelation;
 import idx.lesson.generalBoot.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,6 +32,7 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
@@ -37,6 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Resource
   UserService userService;
+
+  @Resource
+  RoleMapper roleMapper;
 
   @Resource
   private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
@@ -92,6 +99,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authenticationEntryPoint(restAuthenticationEntryPoint);
   }
 
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService())
+            .passwordEncoder(passwordEncoder());
+  }
+
 
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
@@ -124,6 +137,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       User user = userService.getUserByUsername(username);
       if (user != null) {
         List<Role> roles = userService.getUserRoleList(user.getId());
+//        List<Role> roles = userRoleRelation
+//                .stream()
+//                .map(relation -> roleMapper.getRoleNameById(relation.getRoleId()))
+//                .collect(Collectors.toList());
         return new UserDto(user, roles);
       }
       throw new UsernameNotFoundException("用户名或密码错误");

@@ -1,10 +1,14 @@
 package idx.lesson.generalBoot.component;
 
 import idx.lesson.generalBoot.config.ConfigConsts;
+import idx.lesson.generalBoot.entity.Role;
+import idx.lesson.generalBoot.service.UserService;
+import idx.lesson.generalBoot.entity.User;
 import idx.lesson.generalBoot.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -16,11 +20,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
   @Resource
   private UserDetailsService userDetailsService;
+
+  @Resource
+  private UserService userService;
+
 
   @Resource
   private JwtTokenUtil jwtTokenUtil;
@@ -38,10 +47,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
       if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+        log.info("username is here");
           UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
           authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
           log.info("authenticated user:{}", username);
           SecurityContextHolder.getContext().setAuthentication(authentication);
+        } else {
+          log.info("username error");
         }
       }
     }

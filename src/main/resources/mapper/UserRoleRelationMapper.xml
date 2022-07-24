@@ -43,7 +43,7 @@
     </trim>
   </insert>
 
-  <select id="getRoleListByUserId" resultType="idx.lesson.generalBoot.entity.Role">
+  <select id="getRoleListByUserId" resultType="idx.lesson.generalBoot.entity.UserRoleRelation">
     select
     <include refid="Base_Column_List" />
     from `user_role`

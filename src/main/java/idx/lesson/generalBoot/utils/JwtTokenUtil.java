@@ -27,7 +27,6 @@ public class JwtTokenUtil {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>(2);
         claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
-//        claims.put(CLAIM_KEY_CREATED, new Date(System.currentTimeMillis()));
         return generateToken(claims);
     }
 
@@ -66,7 +65,6 @@ public class JwtTokenUtil {
      * 从token中获取登录用户名
      */
     public String getUserNameFromToken(String token) {
-        // TODO: https://blog.csdn.net/qq_45332753/article/details/113833777
         String username;
         try {
             Claims claims = getClaimsFromToken(token);

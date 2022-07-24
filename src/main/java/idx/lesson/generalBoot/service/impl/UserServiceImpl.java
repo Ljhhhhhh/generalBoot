@@ -5,6 +5,7 @@ import idx.lesson.generalBoot.dao.UserMapper;
 import idx.lesson.generalBoot.dao.UserRoleRelationMapper;
 import idx.lesson.generalBoot.entity.Role;
 import idx.lesson.generalBoot.entity.User;
+import idx.lesson.generalBoot.entity.UserRoleRelation;
 import idx.lesson.generalBoot.service.UserService;
 import idx.lesson.generalBoot.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -29,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
   @Resource
   private UserRoleRelationMapper userRoleRelationMapper;
+
+  @Resource
+  private RoleMapper roleMapper;
 
   @Resource
   private UserDetailsService userDetailsService;
@@ -80,6 +85,19 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<Role> getUserRoleList(Integer id) {
-    return userRoleRelationMapper.getRoleListByUserId(id);
+
+    List<UserRoleRelation> userRoleRelation = userRoleRelationMapper.getRoleListByUserId(id);
+    List<Role> roles = userRoleRelation
+            .stream()
+            .map(relation -> roleMapper.getRoleNameById(relation.getRoleId()))
+            .collect(Collectors.toList());
+    return roles;
+
+//
+//
+//    List<UserRoleRelation> userRoleRelation = userRoleRelationMapper.getRoleListByUserId(id);
+//    return userRoleRelation.stream()
+//            .map(relation -> roleMapper.selectByPrimaryKey(relation.getRoleId()))
+//            .collect(Collectors.toList());
   }
 }

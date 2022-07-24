@@ -18,6 +18,11 @@
     from `role`
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getRoleNameById" parameterType="java.lang.Integer" resultType="idx.lesson.generalBoot.entity.Role">
+    select
+    <include refid="Base_Column_List" />
+    from `role` where id = #{id,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
     delete from `role`

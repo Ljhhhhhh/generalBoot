@@ -2,6 +2,7 @@ package idx.lesson.generalBoot.service;
 
 import idx.lesson.generalBoot.entity.Role;
 import idx.lesson.generalBoot.entity.User;
+import idx.lesson.generalBoot.entity.UserRoleRelation;
 
 import java.util.List;
 

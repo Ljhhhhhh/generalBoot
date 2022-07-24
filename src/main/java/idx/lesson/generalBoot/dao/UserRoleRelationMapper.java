@@ -28,5 +28,5 @@ public interface UserRoleRelationMapper {
      */
     int insertSelective(UserRoleRelation record);
 
-    List<Role> getRoleListByUserId(Integer id);
+    List<UserRoleRelation> getRoleListByUserId(Integer id);
 }
