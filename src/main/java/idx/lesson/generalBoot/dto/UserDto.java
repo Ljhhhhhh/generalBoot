@@ -1,17 +1,11 @@
 package idx.lesson.generalBoot.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import idx.lesson.generalBoot.config.ConfigConsts;
-import idx.lesson.generalBoot.entity.Role;
+import idx.lesson.generalBoot.config.ConfigConst;
 import idx.lesson.generalBoot.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -62,6 +56,6 @@ public class UserDto implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return Objects.equals(user.getStatus(), ConfigConsts.USER_ENABLED);
+    return Objects.equals(user.getStatus(), ConfigConst.USER_ENABLED);
   }
 }

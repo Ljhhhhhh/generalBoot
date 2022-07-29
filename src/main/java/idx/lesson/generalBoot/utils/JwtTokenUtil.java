@@ -1,6 +1,6 @@
 package idx.lesson.generalBoot.utils;
 
-import idx.lesson.generalBoot.config.ConfigConsts;
+import idx.lesson.generalBoot.config.ConfigConst;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
@@ -35,7 +35,7 @@ public class JwtTokenUtil {
      */
     private String generateToken(Map<String, Object> claims) {
         try {
-            Date expTime = new Date(System.currentTimeMillis() + ConfigConsts.ACCESS_TOKEN_EXPIRE_TIME);
+            Date expTime = new Date(System.currentTimeMillis() + ConfigConst.ACCESS_TOKEN_EXPIRE_TIME);
             return Jwts.builder().setClaims(claims)
                     .setIssuedAt(new Date(System.currentTimeMillis()))
                     .setExpiration(expTime)

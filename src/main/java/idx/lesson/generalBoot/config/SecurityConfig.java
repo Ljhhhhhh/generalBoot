@@ -5,9 +5,7 @@ import idx.lesson.generalBoot.component.RestAuthenticationEntryPoint;
 import idx.lesson.generalBoot.component.RestfulAccessDeniedHandler;
 import idx.lesson.generalBoot.dao.RoleMapper;
 import idx.lesson.generalBoot.dto.UserDto;
-import idx.lesson.generalBoot.entity.Role;
 import idx.lesson.generalBoot.entity.User;
-import idx.lesson.generalBoot.entity.UserRoleRelation;
 import idx.lesson.generalBoot.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +30,6 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
@@ -113,7 +110,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     configuration.setAllowedOrigins(Collections.singletonList("http://localhost:8000"));
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(Collections.singletonList("*"));
-    configuration.addExposedHeader(ConfigConsts.JWT_HEADER);
+    configuration.addExposedHeader(ConfigConst.JWT_HEADER);
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;
@@ -137,12 +134,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       User user = userService.getUserByUsername(username);
       if (user != null) {
         List<String> roles = userService.getUserRoleList(user.getId());
-//        List<Role> roles = userRoleRelation
-//                .stream()
-//                .map(relation -> roleMapper.getRoleNameById(relation.getRoleId()))
-//                .collect(Collectors.toList());
-        UserDto userDetail = new UserDto(user, roles);
-        return userDetail;
+        return new UserDto(user, roles);
       }
       throw new UsernameNotFoundException("用户名或密码错误");
     };

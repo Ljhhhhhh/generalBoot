@@ -18,7 +18,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
   public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
     response.setCharacterEncoding("UTF-8");
     response.setContentType("application/json");
-    Result result = Result.error(ResultEnum.TOKEN_EXPIRED.getCode(), ResultEnum.TOKEN_EXPIRED.getMessage());
+    Result<Object> result = Result.error(ResultEnum.TOKEN_EXPIRED.getCode(), ResultEnum.TOKEN_EXPIRED.getMessage());
     response.getWriter().println(JSONUtil.parse(result));
     response.getWriter().flush();
   }

@@ -1,38 +1,16 @@
 package idx.lesson.generalBoot.entity;
 
+import idx.lesson.generalBoot.controller.param.RegisterParam;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class User {
+public class User extends RegisterParam {
     /**
     * 用户id
     */
     private Integer id;
-
-    /**
-    * 用户名
-    */
-    private String username;
-
-    /**
-    * 用户密码
-    */
-    private String password;
-
-    /**
-    * 昵称
-    */
-    private String nickname;
-
-    /**
-    * 手机号
-    */
-    private String mobile;
-
-    /**
-    * 邮箱
-    */
-    private String email;
 
     /**
     * 是否启用 1=启用 0=禁用

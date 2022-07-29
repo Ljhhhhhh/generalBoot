@@ -1,5 +1,6 @@
 package idx.lesson.generalBoot.service;
 
+import idx.lesson.generalBoot.controller.param.RegisterParam;
 import idx.lesson.generalBoot.entity.Role;
 import idx.lesson.generalBoot.entity.User;
 import idx.lesson.generalBoot.entity.UserRoleRelation;
@@ -10,7 +11,7 @@ public interface UserService {
   /**
    * 注册功能
    */
-  User register(User umsAdminParam);
+  User register(RegisterParam registerParam);
 
   /**
    * 登录功能
